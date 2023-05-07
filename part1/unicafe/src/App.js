@@ -11,6 +11,10 @@ const App = () => {
         stateSetter(state + 1)
     }
 
+    const numFeedback = () => good + neutral + bad
+    const averageFeedback = () => (good-bad)/numFeedback()
+    const percentPositive = () => 100*good/numFeedback()
+
     return (
         <div>
             <Header title="give feedback" />
@@ -21,6 +25,9 @@ const App = () => {
             <p>good {good}</p>
             <p>neutral {neutral}</p>
             <p>bad {bad}</p>
+            <p>all {numFeedback()}</p>
+            <p>average {averageFeedback()}</p>
+            <p>positive {percentPositive()}%</p>
         </div>
     )
 }
