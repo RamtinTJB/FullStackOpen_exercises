@@ -15,7 +15,7 @@ const Statistics = ({good, neutral, bad}) => {
     const averageFeedback = () => (good-bad)/numFeedback()
     const percentPositive = () => 100*good/numFeedback()
 
-    if (numFeedback() == 0) {
+    if (numFeedback() === 0) {
         return (
             <>
                 <Header title="statistics" />
