@@ -2,6 +2,14 @@ import { useState } from 'react'
 
 const Header = ({title}) => <h1>{title}</h1>
 
+const StatisticLine = ({text, value}) => {
+    return (
+        <>
+            <p>{text} {value}</p>
+        </>
+    )
+}
+
 const Statistics = ({good, neutral, bad}) => {
     const numFeedback = () => good + neutral + bad
     const averageFeedback = () => (good-bad)/numFeedback()
@@ -18,13 +26,19 @@ const Statistics = ({good, neutral, bad}) => {
     return (
         <>
             <Header title="statistics" />
-            <p>good {good}</p>
-            <p>neutral {neutral}</p>
-            <p>bad {bad}</p>
-            <p>all {numFeedback()}</p>
-            <p>average {averageFeedback()}</p>
-            <p>positive {percentPositive()}%</p>
+            <StatisticLine text="good" value={good} />
+            <StatisticLine text="neutral" value={neutral} />
+            <StatisticLine text="bad" value={bad} />
+            <StatisticLine text="all" value={numFeedback()} />
+            <StatisticLine text="average" value={averageFeedback()} />
+            <StatisticLine text="positive" value={percentPositive()} />
         </>
+    )
+}
+
+const Button = ({text, clickHandler}) => {
+    return (
+        <button onClick={clickHandler}>{text}</button>    
     )
 }
 
@@ -40,9 +54,9 @@ const App = () => {
     return (
         <div>
             <Header title="give feedback" />
-            <button onClick={incrementStateHandler(good, setGood)}>good</button>
-            <button onClick={incrementStateHandler(neutral, setNeutral)}>neutral</button>
-            <button onClick={incrementStateHandler(bad, setBad)}>bad</button>
+            <Button text="good" clickHandler={incrementStateHandler(good, setGood)} />
+            <Button text="neutral" clickHandler={incrementStateHandler(neutral, setNeutral)} />
+            <Button text="bad" clickHandler={incrementStateHandler(bad, setBad)} />
             <Statistics good={good} neutral={neutral} bad={bad} />
         </div>
     )
