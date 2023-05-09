@@ -4,9 +4,10 @@ const Header = ({title}) => <h1>{title}</h1>
 
 const StatisticLine = ({text, value}) => {
     return (
-        <>
-            <p>{text} {value}</p>
-        </>
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
     )
 }
 
@@ -26,12 +27,14 @@ const Statistics = ({good, neutral, bad}) => {
     return (
         <>
             <Header title="statistics" />
-            <StatisticLine text="good" value={good} />
-            <StatisticLine text="neutral" value={neutral} />
-            <StatisticLine text="bad" value={bad} />
-            <StatisticLine text="all" value={numFeedback()} />
-            <StatisticLine text="average" value={averageFeedback()} />
-            <StatisticLine text="positive" value={percentPositive()} />
+            <table>
+                <StatisticLine text="good" value={good} />
+                <StatisticLine text="neutral" value={neutral} />
+                <StatisticLine text="bad" value={bad} />
+                <StatisticLine text="all" value={numFeedback()} />
+                <StatisticLine text="average" value={averageFeedback()} />
+                <StatisticLine text="positive" value={percentPositive()+' %'} />
+            </table>
         </>
     )
 }
