@@ -1,36 +1,44 @@
-const Header = (props) => {
+const Header = ({ course }) => {
     return (
         <>
-            <h1>{props.course}</h1>
+            <h1>{course}</h1>
         </>
     )
 }
 
-const Part = (props) => {
+const Part = ({ p, ex }) => {
     return (
         <>
-            <p> {props.p} {props.ex} </p>
+            <p> {p} {ex} </p>
         </>
     )
 }
 
-const Content = (props) => {
+const Content = ({ parts }) => {
     return (
         <>
-            {props.parts.map(part =>
-                <Part p={part.name} ex={part.exercises} />
+            {parts.map(part =>
+                <Part key={part.id} p={part.name} ex={part.exercises} />
             )}
         </>
     )
 }
 
-const Total = (props) => {
-    let sum = 0
-    props.parts.forEach(value => sum += value.exercises)
+const Total = ({ parts }) => {
     return (
         <>
-            <p>Number of exercises {sum}</p>
+            <p><strong>total of {parts.reduce((acc, curr) => acc + curr.exercises, 0)} exercises</strong></p>
         </>
+    )
+}
+
+const Course = ({ course }) => {
+    return (
+        <div>
+            <Header course={course.name} />
+            <Content parts={course.parts} />
+            <Total parts={course.parts} />
+        </div>
     )
 }
 
@@ -40,26 +48,28 @@ const App = () => {
         parts: [
             {
                 name: 'Fundamentals of React',
-                exercises: 10
+                exercises: 10,
+                id: 1
             },
             {
                 name: 'Using props to pass data',
-                exercises: 7
+                exercises: 7,
+                id: 2
             },
             {
                 name: 'State of a component',
-                exercises: 14
+                exercises: 14,
+                id: 3
+            },
+            {
+                name: 'Redux',
+                exercises: 11,
+                id: 4
             }
         ]
     }
 
-    return (
-        <div>
-            <Header course={course.name} />
-            <Content parts={course.parts} />
-            <Total parts={course.parts} />
-        </div>
-    )
+    return <Course course={course} />
 }
 
 export default App
