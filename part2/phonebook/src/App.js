@@ -15,8 +15,10 @@ const App = () => {
         if (persons.filter(person => person.name === newName).length > 0) {
             alert(`${newName} is already added to phonebook`)
         } else {
-            const copy = persons.concat({ name: newName, number: newNumber, id:persons[persons.length-1].id+1 })
-            setPersons(copy)
+            axios.post('http://localhost:3001/persons', {name: newName, number: newNumber})
+                .then(response => {
+                    setPersons(persons.concat(response.data))
+                })
         }
     }
 
