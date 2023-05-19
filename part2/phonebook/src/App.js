@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Input from './components/Input'
+import personService from './services/persons'
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -15,10 +16,8 @@ const App = () => {
         if (persons.filter(person => person.name === newName).length > 0) {
             alert(`${newName} is already added to phonebook`)
         } else {
-            axios.post('http://localhost:3001/persons', {name: newName, number: newNumber})
-                .then(response => {
-                    setPersons(persons.concat(response.data))
-                })
+            personService.create({name: newName, number: newNumber})
+                .then(data => setPersons(persons.concat(data)))
         }
     }
 
@@ -35,10 +34,7 @@ const App = () => {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:3001/persons")
-            .then(response => {
-                setPersons(response.data)
-            })
+        personService.getAll().then(data => setPersons(data))
     }, [])
 
     const personsToShow = filter === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
