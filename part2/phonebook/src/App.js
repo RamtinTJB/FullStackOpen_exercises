@@ -21,6 +21,11 @@ const App = () => {
         }
     }
 
+    const deleteButtonHandler = (id) => {
+        personService.deletePerson(id)
+        setPersons(persons.filter(person => person.id !== id))
+    }
+
     const nameChangeHandler = (event) => {
         setNewName(event.target.value)
     }
@@ -50,7 +55,7 @@ const App = () => {
 
             <h3>Numbers</h3>
 
-            <Persons persons={personsToShow} />
+            <Persons persons={personsToShow} deleteHandler={deleteButtonHandler}/>
         </div>
     )
 }
