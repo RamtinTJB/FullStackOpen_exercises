@@ -22,8 +22,11 @@ const App = () => {
     }
 
     const deleteButtonHandler = (id) => {
-        personService.deletePerson(id)
-        setPersons(persons.filter(person => person.id !== id))
+        const person = persons.filter(p => p.id === id)[0]
+        if (window.confirm(`Delete ${person.name}?`)) {
+            personService.deletePerson(id)
+            setPersons(persons.filter(person => person.id !== id))
+        }
     }
 
     const nameChangeHandler = (event) => {
