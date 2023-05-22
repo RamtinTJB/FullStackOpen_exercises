@@ -15,8 +15,10 @@ const deletePerson = (id) =>  {
     axios.delete(`${baseUrl}/${id}`)
 }
 
-export default {
+const exportedFunctions = {
     getAll: getAll,
     create: create,
     deletePerson: deletePerson
 }
+
+export default exportedFunctions
