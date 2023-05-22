@@ -13,11 +13,17 @@ const App = () => {
     const addButtonHandler = (event) => {
         event.preventDefault()
         if (persons.filter(person => person.name === newName).length > 0) {
-            alert(`${newName} is already added to phonebook`)
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                const oldPerson = persons.find(person => person.name === newName)
+                personService.update(oldPerson.id, {...oldPerson, number: newNumber})
+                    .then(data => setPersons(persons.map(person => person.id === data.id ? data : person)))
+            }
         } else {
             personService.create({name: newName, number: newNumber})
                 .then(data => setPersons(persons.concat(data)))
         }
+        setNewName('')
+        setNewNumber('')
     }
 
     const deleteButtonHandler = (id) => {
