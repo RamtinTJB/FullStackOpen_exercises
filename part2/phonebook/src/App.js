@@ -3,12 +3,20 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Input from './components/Input'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filter, setFilter] = useState('')
+    const [notifText, setNotifText] = useState(null)
+    const [notifType, setNotifType] = useState(null)
+
+    const clearNotif = () => {
+        setNotifType('')
+        setNotifText(null)
+    }
     
     const addButtonHandler = (event) => {
         event.preventDefault()
@@ -17,11 +25,16 @@ const App = () => {
                 const oldPerson = persons.find(person => person.name === newName)
                 personService.update(oldPerson.id, {...oldPerson, number: newNumber})
                     .then(data => setPersons(persons.map(person => person.id === data.id ? data : person)))
+                setNotifType('success')
+                setNotifText(`Updated ${newName}`)
             }
         } else {
             personService.create({name: newName, number: newNumber})
                 .then(data => setPersons(persons.concat(data)))
+            setNotifType('success')
+            setNotifText(`Added ${newName}`)
         }
+        setTimeout(clearNotif, 3000)
         setNewName('')
         setNewNumber('')
     }
@@ -31,6 +44,9 @@ const App = () => {
         if (window.confirm(`Delete ${person.name}?`)) {
             personService.deletePerson(id)
             setPersons(persons.filter(person => person.id !== id))
+            setNotifType('success')
+            setNotifText(`Deleted ${person.name}`)
+            setTimeout(clearNotif, 3000)
         }
     }
 
@@ -55,6 +71,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification text={notifText} type={notifType}/>
             <Input text='filter shown with' value={filter} changeHandler={filterChangeHandler} />
 
             <h3>add a new</h3>
