@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
