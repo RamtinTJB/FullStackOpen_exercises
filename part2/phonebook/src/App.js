@@ -25,6 +25,11 @@ const App = () => {
                 const oldPerson = persons.find(person => person.name === newName)
                 personService.update(oldPerson.id, {...oldPerson, number: newNumber})
                     .then(data => setPersons(persons.map(person => person.id === data.id ? data : person)))
+                    .catch(data => {
+                        setNotifType('error')
+                        setNotifText(`Information of ${oldPerson.name} has already been removed from server`)
+                        setTimeout(clearNotif, 3000)
+                    })
                 setNotifType('success')
                 setNotifText(`Updated ${newName}`)
             }

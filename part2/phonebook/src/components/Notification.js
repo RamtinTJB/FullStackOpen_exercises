@@ -3,8 +3,6 @@ const Notification = (props) => {
         return null
     }
 
-    console.log(props)
-
     return (
         <div className={props.type}>
             {props.text}
