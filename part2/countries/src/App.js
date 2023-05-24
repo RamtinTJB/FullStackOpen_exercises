@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import countryService from './services/country.js'
 import Country from './components/Country.js'
 
 const App = () => {
@@ -9,10 +8,14 @@ const App = () => {
         setCountry(event.target.value)
     }
 
+    const showButtonHandler = (name) => {
+        setCountry(name)
+    }
+
     return (
         <div>
             find countires <input value={country} onChange={countryInputChange}/>
-            <Country text={country} />
+            <Country text={country} showHandler={showButtonHandler}/>
         </div>
     )
 }
