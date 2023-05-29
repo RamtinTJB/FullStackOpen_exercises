@@ -32,7 +32,7 @@ const Country = (props) => {
         weatherService.getWeather(cnt.capital[0])
             .then(data => setWeather({
                 temperature: data.main.temp,
-                icon: data.weather.icon,
+                icon: data.weather[0].icon,
                 wind: data.wind.speed
             }))
         return (
