@@ -36,6 +36,7 @@ const Country = (props) => {
                     {Object.values(cnt.languages).map(lang => <li key={lang}>{lang}</li>)}
                 </ul>
                 <img src={cnt.flags.png} alt={cnt.flags.alt} width="150"/>
+                <h2>Weather in {cnt.capital[0]}</h2>
             </div>
         )
     } else {
