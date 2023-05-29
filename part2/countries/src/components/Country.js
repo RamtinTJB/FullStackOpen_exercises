@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import countryService from '../services/country.js'
+import weatherService from '../services/weather.js'
+import Weather from './Weather'
 
 const Country = (props) => {
     const [allCountries, setAllCountries] = useState([])
+    const [weather, setWeather] = useState(null)
 
     useEffect(() => {
         countryService.getAll()
@@ -26,6 +29,12 @@ const Country = (props) => {
         )
     } else if (countriesFiltered.length === 1) {
         const cnt = countriesFiltered[0]
+        weatherService.getWeather(cnt.capital[0])
+            .then(data => setWeather({
+                temperature: data.main.temp,
+                icon: data.weather.icon,
+                wind: data.wind.speed
+            }))
         return (
             <div>
                 <h1>{cnt.name.common}</h1>
@@ -37,6 +46,7 @@ const Country = (props) => {
                 </ul>
                 <img src={cnt.flags.png} alt={cnt.flags.alt} width="150"/>
                 <h2>Weather in {cnt.capital[0]}</h2>
+                <Weather data={weather} />
             </div>
         )
     } else {
