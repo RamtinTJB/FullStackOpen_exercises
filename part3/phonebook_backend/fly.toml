@@ -1,13 +1,10 @@
-# fly.toml app configuration file generated for divine-surf-8699 on 2023-05-30T17:40:36-07:00
+# fly.toml app configuration file generated for cool-wave-4628 on 2023-05-30T21:05:04-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "divine-surf-8699"
+app = "cool-wave-4628"
 primary_region = "lax"
-
-[env]
-  PORT = "8080"
 
 [http_service]
   internal_port = 8080
