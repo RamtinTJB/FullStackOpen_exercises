@@ -68,7 +68,9 @@ const App = () => {
     }
 
     useEffect(() => {
-        personService.getAll().then(data => setPersons(data))
+        personService.getAll().then(data => {
+            setPersons(data)
+        })
     }, [])
 
     const personsToShow = filter === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
