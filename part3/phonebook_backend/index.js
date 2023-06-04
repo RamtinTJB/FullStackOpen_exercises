@@ -6,7 +6,7 @@ const Person = require('./models/person')
 
 const app = express()
 
-morgan.token('post-content', (req, res) => {
+morgan.token('post-content', (req,) => {
     if (req.method === 'POST') {
         return JSON.stringify(req.body)
     } else {
@@ -20,26 +20,28 @@ app.use(cors())
 app.use(express.static('build'))
 
 app.get('/api/persons', (request, response, next) => {
-    Person.find({}).then(result => {
-        response.json(result)
-    })
-    .catch(error => next(error))
+    Person.find({})
+        .then(result => {
+            response.json(result)
+        })
+        .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
-    Person.findById(request.params.id).then(person => {
-        if (person) {
-            response.json(person)
-        } else {
-            response.status(404).end()
-        }
-    })
-    .catch(error => next(error))
+    Person.findById(request.params.id)
+        .then(person => {
+            if (person) {
+                response.json(person)
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndRemove(request.params.id)
-        .then(result => {
+        .then(() => {
             response.status(204).end()
         })
         .catch(error => next(error))
@@ -55,7 +57,7 @@ app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
     if (!('name' in body) || !('number' in body)) {
-        return returnError(response, "Name or number is missing")
+        return returnError(response, 'Name or number is missing')
     }
 
     const person = new Person({
@@ -63,17 +65,18 @@ app.post('/api/persons', (request, response, next) => {
         number: body.number,
     })
 
-    person.save().then(savedPerson => {
-        response.json(savedPerson)
-    })
-    .catch(error => next(error))
+    person.save()
+        .then(savedPerson => {
+            response.json(savedPerson)
+        })
+        .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body
 
     if (!('name' in body) || !('number' in body)) {
-        return returnError(response, "Name or number is missing")
+        return returnError(response, 'Name or number is missing')
     }
 
     const person = {
@@ -81,21 +84,22 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: body.number,
     }
 
-    Person.findByIdAndUpdate(request.params.id, person, {new: true, runValidators: true, context: 'query'})
+    Person.findByIdAndUpdate(request.params.id, person, { new: true, runValidators: true, context: 'query' })
         .then(updatedPerson => {
             response.json(updatedPerson)
         })
         .catch(error => next(error))
 })
 
-app.get('/info', (request, response, error) => {
-    Person.find({}).then(result => {
-        response.send(`Phonebook has info for ${result.length} people<br/>${Date()}`)
-    })
-    .catch(error => next(error))
+app.get('/info', (request, response, next) => {
+    Person.find({})
+        .then(result => {
+            response.send(`Phonebook has info for ${result.length} people<br/>${Date()}`)
+        })
+        .catch(error => next(error))
 })
 
-const unknownEndpoint = (request, repsonse) => {
+const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
