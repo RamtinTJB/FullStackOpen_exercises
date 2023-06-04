@@ -36,6 +36,10 @@ const App = () => {
         } else {
             personService.create({name: newName, number: newNumber})
                 .then(data => setPersons(persons.concat(data)))
+                .catch(error => {
+                    setNotifType('error')
+                    setNotifText(error.response.data.error)
+                })
             setNotifType('success')
             setNotifText(`Added ${newName}`)
         }
