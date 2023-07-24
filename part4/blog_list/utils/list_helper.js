@@ -35,7 +35,7 @@ const mostBlogs = (blogs) => {
     }
 
     let mostBlogAuthor = ""
-    let mostBlogsNum = 0
+    let mostBlogsNum = -1
 
     for (const [author, numBlogs] of Object.entries(authorBlogMap)) {
         if (numBlogs > mostBlogsNum) {
@@ -50,9 +50,38 @@ const mostBlogs = (blogs) => {
     }
 }
 
+const mostLikes = (blogs) => {
+    if (blogs.length === 0) return {}
+    const authorLikeMap = {}
+
+    for (let blog of blogs) {
+        if (blog.author in authorLikeMap) {
+            authorLikeMap[blog.author] += blog.likes
+        } else {
+            authorLikeMap[blog.author] = blog.likes
+        }
+    }
+
+    let mostLikeAuthor = ""
+    let mostLikesNum = -1
+
+    for (const [author, numLikes] of Object.entries(authorLikeMap)) {
+        if (numLikes > mostLikesNum) {
+            mostLikeAuthor = author
+            mostLikesNum = numLikes
+        }
+    }
+
+    return {
+        author: mostLikeAuthor,
+        likes: mostLikesNum
+    }
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
