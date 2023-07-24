@@ -22,8 +22,37 @@ const favoriteBlog = (blogs) => {
     }
 }
 
+const mostBlogs = (blogs) => {
+    if (blogs.length === 0) return {}
+    const authorBlogMap = {}
+
+    for (let blog of blogs) {
+        if (blog.author in authorBlogMap) {
+            authorBlogMap[blog.author] += 1
+        } else {
+            authorBlogMap[blog.author] = 1
+        }
+    }
+
+    let mostBlogAuthor = ""
+    let mostBlogsNum = 0
+
+    for (const [author, numBlogs] of Object.entries(authorBlogMap)) {
+        if (numBlogs > mostBlogsNum) {
+            mostBlogAuthor = author
+            mostBlogsNum = numBlogs
+        }
+    }
+
+    return {
+        author: mostBlogAuthor,
+        blogs: mostBlogsNum
+    }
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
